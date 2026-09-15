@@ -123,11 +123,11 @@ export const LoginPage = () => {
             <div className="grid grid-cols-2 gap-2">
               <button
                 type="button"
-                onClick={() => handleQuickFill('admin@enterprise.com', 'Admin@123456')}
+                onClick={() => handleQuickFill('balaji@assetflow.tech', 'Balaji@151606')}
                 className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
               >
                 <ShieldCheck className="w-3.5 h-3.5 text-brand-600 dark:text-brand-400" />
-                <span>Fill Admin</span>
+                <span>Fill Balaji (Admin)</span>
               </button>
               <button
                 type="button"
