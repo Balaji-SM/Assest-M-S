@@ -20,5 +20,7 @@ services:
         sync: false
       - key: JWT_SECRET
         generateValue: true
+      - key: CLIENT_URL
+        value: https://assetflow.tech
       - key: JWT_EXPIRES_IN
         value: 7d

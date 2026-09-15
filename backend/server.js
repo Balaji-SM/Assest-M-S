@@ -25,6 +25,8 @@ app.use(express.urlencoded({ extended: true }));
 // CORS configuration
 const allowedOrigins = [
   process.env.CLIENT_URL,
+  'https://assetflow.tech',
+  'https://www.assetflow.tech',
   'http://localhost:5173',
   'http://localhost:3000',
   'http://127.0.0.1:5173',
@@ -39,6 +41,7 @@ app.use(
       const isAllowed =
         allowedOrigins.indexOf(origin) !== -1 ||
         origin.endsWith('.vercel.app') ||
+        origin.endsWith('assetflow.tech') ||
         origin.includes('localhost');
 
       if (isAllowed) {
