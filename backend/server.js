@@ -4,13 +4,17 @@ const morgan = require('morgan');
 const dotenv = require('dotenv');
 const path = require('path');
 const connectDB = require('./config/db');
+const { checkSupabaseConnection } = require('./config/supabase');
+const { checkPostgresConnection } = require('./config/postgres');
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 
 // Load environment variables
 dotenv.config();
 
-// Connect to MongoDB
+// Initialize databases
 connectDB();
+checkSupabaseConnection();
+checkPostgresConnection();
 
 const app = express();
 
@@ -20,18 +24,27 @@ app.use(express.urlencoded({ extended: true }));
 
 // CORS configuration
 const allowedOrigins = [
-  process.env.CLIENT_URL || 'http://localhost:5173',
+  process.env.CLIENT_URL,
+  'http://localhost:5173',
   'http://localhost:3000',
   'http://127.0.0.1:5173',
-];
+].filter(Boolean);
+
 app.use(
   cors({
     origin: function (origin, callback) {
       // Allow requests with no origin (e.g. mobile apps, curl, Postman)
-      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      if (!origin) return callback(null, true);
+
+      const isAllowed =
+        allowedOrigins.indexOf(origin) !== -1 ||
+        origin.endsWith('.vercel.app') ||
+        origin.includes('localhost');
+
+      if (isAllowed) {
         callback(null, true);
       } else {
-        callback(null, true); // Allow during dev, can restrict in strict prod
+        callback(null, true); // Fallback to allow for cloud deployments
       }
     },
     credentials: true,
@@ -56,6 +69,10 @@ app.get('/api/health', (req, res) => {
     message: 'Asset Management API server is healthy and operational',
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV || 'development',
+    supabase: {
+      url: process.env.SUPABASE_URL || null,
+      configured: Boolean(process.env.SUPABASE_URL && process.env.SUPABASE_KEY),
+    },
   });
 });
 

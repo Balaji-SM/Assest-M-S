@@ -10,6 +10,12 @@ services:
         value: production
       - key: PORT
         value: 10000
+      - key: SUPABASE_URL
+        value: https://lhhutylzxdasaguduyzg.supabase.co
+      - key: SUPABASE_KEY
+        value: sb_publishable_So36LJZGMKtzR28IVNeouQ_q-0dYUh9
+      - key: DATABASE_URL
+        sync: false
       - key: MONGO_URI
         sync: false
       - key: JWT_SECRET
